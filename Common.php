@@ -466,33 +466,9 @@ function directory_is_writable($dir, $chmod = 0755)
  * @param string $unknown element name for numeric keys
  * @param string $doctype XML doctype
  */
-function to_xml($object, $root = 'data', $xml = NULL, $unknown = 'element', $doctype = "<?xml version = '1.0' encoding = 'utf-8'?>")
+function to_xml($object, $root = 'root', $xml = NULL, $unknown = 'item', $doctype = "<?xml version = '1.0' encoding = 'utf-8'?>")
 {
-	if(is_null($xml))
-	{
-		$xml = simplexml_load_string("$doctype<$root/>");
-	}
-
-	foreach((array) $object as $k => $v)
-	{
-		if(is_int($k))
-		{
-			$k = $unknown;
-		}
-
-		if(is_scalar($v))
-		{
-			$xml->addChild($k, h($v));
-		}
-		else
-		{
-			$v = (array) $v;
-			$node = array_diff_key($v, array_keys(array_keys($v))) ? $xml->addChild($k) : $xml;
-			self::from($v, $k, $node);
-		}
-	}
-
-	return $xml;
+    return \Core\XML::from($object, $root, $xml, $unkown, $doctype)->saveXML();
 }
 
 
@@ -510,20 +486,21 @@ function __date($locale = NULL, $datetype = IntlDateFormatter::MEDIUM, $timetype
 	return new IntlDateFormatter($locale ?: setlocale(LC_ALL, 0), $datetype, $timetype, $timezone);
 }
 
-
 /**
- * Format the given string using the current system locale
- * Basically, it's sprintf on i18n steroids.
- *
- * @param string $string to parse
- * @param array $params to insert
- * @return string
+ * Use I18n Object to parse
  */
-function __($string, array $params = NULL)
+if(!function_exists('_'))
 {
-	return msgfmt_format_message(setlocale(LC_ALL, 0), $string, $params);
-}
+    function _($string, array $values = NULL, $lang = 'en')
+    {
+        if ($lang !== \Core\I18n::$lang)
+        {
+            $string = \Core\I18n::get($string);
+        }
 
+        return empty($values) ? $string : strtr($string, $values);
+    }
+}
 
 /**
  * Color output text for the CLI

@@ -21,6 +21,9 @@ define('START_MEMORY_USAGE', memory_get_usage());
 // Extension of all PHP files
 define('EXT', '.php');
 
+// Extension of all PHP files
+define('IS_CLI', PHP_SAPI == 'cli');
+
 // Directory separator (Unix-Style works on all OS)
 define('DS', '/');
 
@@ -32,7 +35,7 @@ define('AJAX_REQUEST', strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttpr
 
 // The current TLD address, scheme, and port
 define('DOMAIN', (strtolower(getenv('HTTPS')) == 'on' ? 'https' : 'http') . '://'
-	. getenv('HTTP_HOST') . (($p = getenv('SERVER_PORT')) != 80 AND $p != 443 ? ":$p" : ''));
+. getenv('HTTP_HOST') . (($p = getenv('SERVER_PORT')) != 80 AND $p != 443 ? ":$p" : ''));
 
 // The current site path
 define('PATH', parse_url(getenv('REQUEST_URI'), PHP_URL_PATH));
@@ -43,33 +46,41 @@ require(SP . 'Common' . EXT);
 // Register events
 foreach(config()->events as $event => $class)
 {
-	event($event, NULL, $class);
+    event($event, NULL, $class);
 }
 
 /*
-if(preg_match_all('/[\-a-z]{2,}/i', getenv('HTTP_ACCEPT_LANGUAGE'), $locales))
+ if(preg_match_all('/[\-a-z]{2,}/i', getenv('HTTP_ACCEPT_LANGUAGE'), $locales))
 {
-	$locales = $locales[0];
+$locales = $locales[0];
 }
 */
 
 // Get locale from user agent
+$preference = false;
 if(isset($_COOKIE['lang']))
 {
-	$preference = $_COOKIE['lang'];
+    $preference = $_COOKIE['lang'];
+}
+
+if(class_exists('Locale', false))
+{
+    if(!$preference) $preference = Locale::acceptFromHttp(getenv('HTTP_ACCEPT_LANGUAGE'));
+    // Match preferred language to those available, defaulting to generic English
+    $locale = Locale::lookup(config()->languages, $preference, false, 'en');
+
+    // Default Locale
+    Locale::setDefault($locale);
+    //putenv("LC_ALL", $locale);
 }
 else
 {
-	$preference = Locale::acceptFromHttp(getenv('HTTP_ACCEPT_LANGUAGE'));
+    if(!$preference) $locale = \Core\I18n::prefered_language(config()->languages);
+    else $locale = $preference;
+    \Core\I18n::lang($locale);
 }
-
-// Match preferred language to those available, defaulting to generic English
-$locale = Locale::lookup(config()->languages, $preference, false, 'en');
-
-// Default Locale
-Locale::setDefault($locale);
+define('LOCALE', $locale);
 setlocale(LC_ALL, $locale . '.utf-8');
-//putenv("LC_ALL", $locale);
 
 // Default timezone of server
 date_default_timezone_set('UTC');
