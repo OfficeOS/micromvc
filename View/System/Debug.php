@@ -14,7 +14,7 @@
 <?php print dump(PATH); ?>
 
 <b>Locale</b>
-<?php print dump($GLOBALS['locale']); ?>
+<?php print dump(LOCALE); ?>
 
 <b>Timezone</b>
 <?php print dump(date_default_timezone_get()); ?>
