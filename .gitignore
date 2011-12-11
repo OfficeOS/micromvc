@@ -15,5 +15,5 @@ Desktop.ini
 # MicroMVC
 *.cache
 *.log
-Uploads
-Storage
+uploads
+storage
