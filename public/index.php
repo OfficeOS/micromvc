@@ -12,7 +12,7 @@
  */
 
 // Include bootstrap
-require('../Bootstrap.php');
+require('../bootstrap.php');
 
 try
 {
@@ -20,7 +20,7 @@ try
 	event('system.startup');
 
 	// Load controller dispatch passing URL routes
-	$dispatch = new \Core\Dispatch(config('Route')->routes);
+	$dispatch = new \Core\Dispatch(config('route')->routes);
 
 	// Run controller based on URL path and HTTP request method
 	$controller = $dispatch->controller(PATH, getenv('REQUEST_METHOD'));
