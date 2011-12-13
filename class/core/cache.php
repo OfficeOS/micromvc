@@ -16,7 +16,7 @@ abstract class Cache {
      */
     public static function factory($name = 'default')
     {
-        if(!$config = config('Cache')->$name)
+        if(!$config = config('cache')->$name)
         {
             return false;
         }
