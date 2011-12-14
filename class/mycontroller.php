@@ -29,10 +29,10 @@ abstract class MyController extends \Core\Controller
 	/**
 	 * Load database connection
 	 */
-	public function load_database($name = 'database')
+	public function load_database($name = 'default')
 	{
 		// Load database
-		$db = new \Core\Database(config()->$name);
+		$db = new \Core\Database(config('database')->$name);
 
 		// Set default ORM database connection
 		if(empty(\Core\ORM::$db))
@@ -69,7 +69,7 @@ abstract class MyController extends \Core\Controller
 
 		$layout = NULL;
 
-		if(config()->debug_mode)
+		if(config('debug_mode'))
 		{
 			print new \Core\View('system/debug');
 		}

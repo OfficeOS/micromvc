@@ -1,7 +1,7 @@
 <?php
 /**
- * 缓存
- * @author corriezhao
+ * Cache
+ * @author Corrie Zhao <hfcorriez@gmail.com>
  *
  */
 namespace Core;
@@ -16,9 +16,9 @@ abstract class Cache {
      */
     public static function factory($name = 'default')
     {
-        if(!$config = config('cache')->$name)
+        if(!$config = Config::get("cache.{$name}"))
         {
-            return false;
+            throw new Exception('Config not exists for cache->' . $name);
         }
         $class = '\Core\Cache\\' . ucfirst(strtolower($config['driver']));
         return new $class($config);

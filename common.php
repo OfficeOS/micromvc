@@ -53,25 +53,9 @@ function event($event, $value = NULL, $callback = NULL)
  * @param boolean $clear to clear the config object
  * @return object
  */
-function config($file = 'config', $clear = FALSE)
+function config($key = false, $default = null)
 {
-	static $configs = array();
-
-	if($clear)
-	{
-		unset($configs[$file]);
-		return;
-	}
-
-	if(empty($configs[$file]))
-	{
-		//$configs[$file] = new \Core\Config($file);
-		require(SP . 'config/' . $file . EXT);
-		$configs[$file] = (object) $config;
-		//print dump($configs);
-	}
-
-	return $configs[$file];
+	return \Core\Config::get($key, $default);
 }
 
 

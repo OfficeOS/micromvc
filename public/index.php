@@ -20,7 +20,7 @@ try
 	event('system.startup');
 
 	// Load controller dispatch passing URL routes
-	$dispatch = new \Core\Dispatch(config('route')->routes);
+	$dispatch = new \Core\Dispatch(config('routes'));
 
 	// Run controller based on URL path and HTTP request method
 	$controller = $dispatch->controller(PATH, getenv('REQUEST_METHOD'));

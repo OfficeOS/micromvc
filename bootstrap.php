@@ -43,8 +43,10 @@ define('PATH', parse_url(getenv('REQUEST_URI'), PHP_URL_PATH));
 // Include common system functions
 require(SP . 'common' . EXT);
 
+\Core\Config::setup(include(SP . 'config/config.php'));
+
 // Register events
-foreach(config()->events as $event => $class)
+foreach(config('events') as $event => $class)
 {
     event($event, NULL, $class);
 }
@@ -67,7 +69,7 @@ if(class_exists('Locale', false))
 {
     if(!$preference) $preference = Locale::acceptFromHttp(getenv('HTTP_ACCEPT_LANGUAGE'));
     // Match preferred language to those available, defaulting to generic English
-    $locale = Locale::lookup(config()->languages, $preference, false, 'en');
+    $locale = Locale::lookup(config('languages'), $preference, false, 'en');
 
     // Default Locale
     Locale::setDefault($locale);
@@ -75,7 +77,7 @@ if(class_exists('Locale', false))
 }
 else
 {
-    if(!$preference) $locale = \Core\I18n::prefered_language(config()->languages);
+    if(!$preference) $locale = \Core\I18n::prefered_language(config('languages'));
     else $locale = $preference;
     \Core\I18n::lang($locale);
 }

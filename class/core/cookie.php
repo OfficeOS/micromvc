@@ -25,7 +25,7 @@ class Cookie
 	public static function get($name, $config = NULL)
 	{
 		// Use default config settings if needed
-		$config = $config ?: config()->cookie;
+		$config = $config ?: Config::get('cookie');
 
 		if(isset($_COOKIE[$name]))
 		{
@@ -55,7 +55,7 @@ class Cookie
 	public static function set($name, $value, $config = NULL)
 	{
 		// Use default config settings if needed
-		extract($config ?: config()->cookie);
+		extract($config ?: Config::get('cookie'));
 
 		// If the cookie is being removed we want it left blank
 		$value = $value ? base64_encode(Cipher::encrypt(json_encode(array(time(), $value)), $key)) : '';

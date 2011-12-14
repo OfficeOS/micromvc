@@ -32,9 +32,9 @@ abstract class Logger {
      */
     public static function factory($name = 'default')
     {
-        if(!$config = config('logger')->$name)
+        if(!$config = Config::get("logger.{$name}"))
         {
-            throw new \Core\Exception('Config not exists for logger->' . $name);
+            throw new Exception('Config not exists for logger->' . $name);
         }
         $class = '\Core\Logger\\' . $config['driver'];
         return new $class($config);

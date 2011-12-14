@@ -27,7 +27,5 @@ class Index extends \MyController
 
 		// Load the welcome view
 		$this->content = new \Core\View('index/index');
-		
-		\Core\Logger::instance()->debug('abc');
 	}
 }

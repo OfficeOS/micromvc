@@ -10,6 +10,7 @@
  * @license		http://micromvc.com/license
  ********************************** 80 Columns *********************************
  */
+$config = array();
 
 // Base site url - Not currently supported!
 $config['site_url'] = '/';
@@ -30,13 +31,15 @@ $config['languages'] = array('en');
  * Visit http://us3.php.net/manual/en/pdo.drivers.php for more info.
  */
 $config['database'] = array(
-	'dns' => "mysql:host=127.0.0.1;port=3306;dbname=micromvc",
-	'username' => 'root',
-	'password' => '',
-	//'dns' => "pgsql:host=localhost;port=5432;dbname=micromvc",
-	//'username' => 'postgres',
-	//'password' => 'postgres',
-	'params' => array()
+    'default' => array(
+    	'dns' => "mysql:host=127.0.0.1;port=3306;dbname=micromvc",
+    	'username' => 'root',
+    	'password' => '',
+    	//'dns' => "pgsql:host=localhost;port=5432;dbname=micromvc",
+    	//'username' => 'postgres',
+    	//'password' => 'postgres',
+    	'params' => array()
+	)
 );
 
 
@@ -64,6 +67,22 @@ $config['cookie'] = array(
 	'httponly' => '',
 );
 
+// Logger config
+$config['logger'] = array(
+    'default' => array(
+        'driver' => 'file',
+        'dir' => SP . 'storage/log/',
+        'level' => \Core\Logger::LEVEL_DEBUG,
+    )
+);
+
+// Route
+$config['routes'] = array(
+	''					=> '\Controller\Index',
+	'404'				=> '\Controller\Page404',
+	'school'			=> '\Controller\School',
+);
+
 
 /**
  * API Keys and Secrets
@@ -73,4 +92,6 @@ $config['cookie'] = array(
  */
 
 //$config['XXX_api_key'] = '...';
+
+return $config;
 
