@@ -34,7 +34,7 @@ class Error
 		// Ignore errors less than the current error setting
 		if((error_reporting() & $code) === 0) return TRUE;
 
-		log_message("[$code] $error [$file] ($line)");
+		Logger::instance()->error("[$code] $error [$file] ($line)");
 
 		self::$found = TRUE;
 		self::header();
@@ -57,7 +57,7 @@ class Error
 
 		try
 		{
-			log_message($message);
+			Logger::instance()->error($message);
 			self::header();
 
 			$view = new View('System/Exception');
