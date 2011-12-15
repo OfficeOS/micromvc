@@ -32,7 +32,7 @@ abstract class MyController extends \Core\Controller
 	public function load_database($name = 'default')
 	{
 		// Load database
-		$db = new \Core\Database(config('database')->$name);
+		$db = new \Core\Database(config('database.' . $name));
 
 		// Set default ORM database connection
 		if(empty(\Core\ORM::$db))

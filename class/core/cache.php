@@ -16,7 +16,7 @@ abstract class Cache {
      */
     public static function factory($name = 'default')
     {
-        if(!$config = Config::get("cache.{$name}"))
+        if(!$config = Config::get('cache.' . $name))
         {
             throw new Exception('Config not exists for cache->' . $name);
         }

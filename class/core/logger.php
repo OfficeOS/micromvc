@@ -32,7 +32,7 @@ abstract class Logger {
      */
     public static function factory($name = 'default')
     {
-        if(!$config = Config::get("logger.{$name}"))
+        if(!$config = Config::get('logger.' . $name))
         {
             throw new Exception('Config not exists for logger->' . $name);
         }
