@@ -85,7 +85,7 @@ define('LOCALE', $locale);
 setlocale(LC_ALL, $locale . '.utf-8');
 
 // Default timezone of server
-date_default_timezone_set('UTC');
+date_default_timezone_set(config('timezone', 'UTC'));
 
 // iconv encoding
 iconv_set_encoding("internal_encoding", "UTF-8");

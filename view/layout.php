@@ -8,7 +8,7 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<link rel="stylesheet" media="all" href="css/style.css"/>
+	<link rel="stylesheet" media="all" href="/resources/css/style.css"/>
 
 	<?php
 	//Print all CSS files

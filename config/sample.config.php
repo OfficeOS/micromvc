@@ -24,6 +24,9 @@ $config['bootstrap'] = FALSE;
 // Available translations (Array of Locales)
 $config['languages'] = array('en');
 
+// Timezone
+$config['tiemzone'] = 'UTC';
+
 /**
  * Database
  *
