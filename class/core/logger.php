@@ -28,7 +28,7 @@ abstract class Logger {
     /**
      * factroy a logger
      * @param string $name
-     * @return Log
+     * @return Logger
      */
     public static function factory($name = 'default')
     {
@@ -43,11 +43,11 @@ abstract class Logger {
     /**
      * instance a logger
      * @param string $name
-     * @return Log
+     * @return Logger
      */
     public static function instance($name = 'default')
     {
-        $instance = array();
+        static $instance = array();
         if(!isset($instance[$name]))
         {
             $instance[$name] = self::factory($name);
@@ -64,12 +64,17 @@ abstract class Logger {
         $message = array(
             'id' => isset($_SERVER['HTTP_REQUEST_ID']) ? $_SERVER['HTTP_REQUEST_ID'] : '',
             'type' => 'message',
-            'timestamp' => microtime(true),
-            'msg' => $msg,
+            'time' => microtime(true),
+            'text' => $msg,
             'level' => self::$levels[$level],
             'ip' => $_SERVER['REMOTE_ADDR'],
+            'memory' => memory_get_usage(),
         );
         $this->messages[] = $message;
+    }
+    
+    public function getMessages(){
+        return $this->messages;
     }
     
     public function __call($method, $params)

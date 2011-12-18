@@ -155,9 +155,15 @@ class Pagination
 	 *
 	 * @param integer $page number
 	 */
-	public function url($page = NULL)
+    public function url($page = NULL)
 	{
-		return site_url($this->path, (array) $this->params + array('page' => $page));
+	    $params = (array) $this->params + array('page' => $page);
+	    $masks = array();
+	    foreach($params as $key=>$param)
+	    {
+	        $masks[] = ":{$key}";
+	    }
+		return str_replace($masks, array_values($params), $this->path);
 	}
 }
 

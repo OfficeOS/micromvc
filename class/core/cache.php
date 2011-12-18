@@ -31,7 +31,7 @@ abstract class Cache {
      */
     public static function instance($name = 'default')
     {
-        $instance = array();
+        static $instance = array();
         if(!isset($instance[$name]))
         {
             $instance[$name] = self::factory($name);
