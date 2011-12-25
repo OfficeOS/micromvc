@@ -37,7 +37,7 @@ class Pagination
 	{
 		$this->current = (int) $current;
 		$this->per_page = (int) $per_page;
-		$this->total = (int) ceil($total / $per_page);
+		$this->total = (int) ceil((int)$total / (int)$per_page);
 		$this->path = $path;
 
 		// Assume the current URL parameters if not given
@@ -61,7 +61,7 @@ class Pagination
 	{
 		if($this->current > 1)
 		{
-			return HTML::tag('li', HTML::link($this->url($this->current-1), _('&larr; Previous'), array('class' => 'previous')));
+			return HTML::tag('li', HTML::link($this->url($this->current-1), '&#139;'), array('class' => 'previous'));
 		}
 	}
 
@@ -75,7 +75,7 @@ class Pagination
 	{
 		if($this->current > $this->links + 1)
 		{
-			return HTML::tag('li', HTML::link($this->url(1), _('&lt; First')), array('class' => 'first'));
+			return HTML::tag('li', HTML::link($this->url(1), '&#171;'), array('class' => 'first'));
 		}
 	}
 
@@ -89,7 +89,7 @@ class Pagination
 	{
 		if($this->current + $this->links  < $this->total)
 		{
-			return HTML::tag('li', HTML::link($this->url($this->total), _('Last &gt;')), array('class' => 'last'));
+			return HTML::tag('li', HTML::link($this->url($this->total), '&#187;'), array('class' => 'last'));
 		}
 	}
 
@@ -103,12 +103,13 @@ class Pagination
 	{
 		$attributes = array('class' => 'next');
 
-		if($this->total < 2 OR $this->current < $this->total)
+		if($this->total < 2 OR $this->current == $this->total)
 		{
-			$attributes = array('class' => 'disabled next');
+			//$attributes = array('class' => 'disabled next');
+			return '';
 		}
 
-		return HTML::tag('li', HTML::link($this->url($this->current+1), _('Next &rarr;')), $attributes);
+		return HTML::tag('li', HTML::link($this->url($this->current+1), '&#155;'), $attributes);
 	}
 
 
@@ -126,7 +127,8 @@ class Pagination
 			$start = (($this->current - $this->links) > 0) ? $this->current - $this->links : 1;
 			$end = (($this->current + $this->links) < $this->total) ? $this->current + $this->links : $this->total;
 
-			$html = $this->previous();
+			$html = $this->first();
+			$html .= $this->previous();
 
 			for($i = $start; $i <= $end; ++$i)
 			{
@@ -138,6 +140,7 @@ class Pagination
 			}
 
 			$html .= $this->next();
+			$html .= $this->last();
 
 			return HTML::tag('div', "<ul>\n" . $html . "</ul>\n", $this->attributes);
 		}
@@ -157,7 +160,13 @@ class Pagination
 	 */
 	public function url($page = NULL)
 	{
-		return site_url($this->path, (array) $this->params + array('page' => $page));
+	    $params = (array) $this->params + array('page' => $page);
+	    $masks = array();
+	    foreach($params as $key=>$param)
+	    {
+	        $masks[] = ":{$key}";
+	    }
+		return str_replace($masks, array_values($params), $this->path);
 	}
 }
 
