@@ -33,7 +33,7 @@ class File extends \Core\Logger {
             $messages_wraper = array();
             foreach($this->messages as $message)
             {
-                $messages_wraper[$message['level']][] = '[' . date('Y-m-d H:i:s', $message['timestamp']) . '] ' . ($message['id'] ? "#{$message['id']} " : '') . $message['msg'];
+                $messages_wraper[$message['level']][] = '[' . date('Y-m-d H:i:s', $message['time']) . '] ' . ($message['id'] ? "#{$message['id']} " : '') . $message['text'];
             }
             
             foreach ($messages_wraper as $level => $wraper)

@@ -24,6 +24,9 @@ class ORM
 	// object data, related, changed, loaded, saved
 	public $data, $related, $changed, $loaded, $saved;
 
+	/**
+	* @var Database
+	*/
 	public static $db;
 	public static $table;
 	public static $key = 'id';

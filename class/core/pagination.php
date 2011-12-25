@@ -158,7 +158,7 @@ class Pagination
 	 *
 	 * @param integer $page number
 	 */
-	public function url($page = NULL)
+    public function url($page = NULL)
 	{
 	    $params = (array) $this->params + array('page' => $page);
 	    $masks = array();

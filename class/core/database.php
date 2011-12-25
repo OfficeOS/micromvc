@@ -15,7 +15,9 @@ namespace Core;
 
 class Database
 {
-
+    /**
+    * @var \PDO
+    */
 	public $pdo = NULL;
 
 	public $type = NULL;
@@ -63,6 +65,9 @@ class Database
 
 		// PDO should throw exceptions
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		
+		// Charset Config
+		if($this->type == 'mysql' && !empty($charset)) $this->pdo->exec("SET NAMES $charset");
 	}
 
 
