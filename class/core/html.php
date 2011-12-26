@@ -62,7 +62,7 @@ class HTML
 	 */
 	public static function tag($tag, $text = '', array $attributes = NULL)
 	{
-		return"\n<$tag" . self::attributes($attributes) . ($text === 0 ? ' />' : ">$text</$tag>");
+		return"\n<$tag" . self::attributes($attributes) . ($text === 0 ? ' />' : ($tag== 'input' ? " />$text" : ">$text</$tag>"));
 	}
 
 
