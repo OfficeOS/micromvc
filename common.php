@@ -450,9 +450,9 @@ function directory_is_writable($dir, $chmod = 0755)
  * @param string $unknown element name for numeric keys
  * @param string $doctype XML doctype
  */
-function to_xml($object, $root = 'root', $xml = NULL, $unknown = 'item', $doctype = "<?xml version = '1.0' encoding = 'utf-8'?>")
+function to_xml($object, $root = 'root', $unknown = 'item', $doctype = "<?xml version = '1.0' encoding = 'utf-8'?>")
 {
-    return \Core\XML::from($object, $root, $xml, $unkown, $doctype)->saveXML();
+    return \Core\XML::fromArray($object, $root, $unknown, $doctype);
 }
 
 
