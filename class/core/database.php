@@ -180,7 +180,7 @@ class Database
 		//$statement = $this->pdo->query($sql);
 
 		// Save query results by database type
-		self::$queries[$this->type][] = array(microtime(TRUE) - $time, $sql);
+		self::$queries[$this->type][] = array(microtime(TRUE) - $time, self::buildQuery($sql, $params));
 
 		return $statement;
 	}
@@ -369,6 +369,44 @@ class Database
 		// Remove ending ", "
 		return substr($sql, 0, -2);
 	}
+
+	/**
+	* Build query with PDO sql statement
+	*
+	* @param string $query sql
+	* @param array $params params
+	*/
+	public static function buildQuery($query, $params = array())
+    {
+        if(!$params) return $query;
+
+        $keys = array();
+        $values = array();
+        # build a regular expression for each parameter
+        foreach ($params as $key=>$value)
+        {
+            if (is_string($key))
+            {
+                $keys[] = '/:'.$key.'/';
+            }
+            else
+            {
+                $keys[] = '/[?]/';
+            }
+
+            if(is_numeric($value))
+            {
+                $values[] = intval($value);
+            }
+            else
+            {
+                $values[] = '"'.$value .'"';
+            }
+        }
+
+        $query = preg_replace($keys, $values, $query, 1, $count);
+        return $query;
+    }
 
 }
 
