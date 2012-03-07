@@ -32,6 +32,8 @@ class Database
 
 	public static $last_query = NULL;
 
+	private $_in_transaction = false;
+
 	/**
 	 * Set the database type and save the config for later.
 	 *
@@ -70,6 +72,27 @@ class Database
 		if($this->type == 'mysql' && !empty($charset)) $this->pdo->exec("SET NAMES $charset");
 	}
 
+	public function begin()
+	{
+	    if ($this->_in_transaction) return;
+	    if(!$this->pdo) $this->connect();
+	    $this->pdo->beginTransaction();
+	    $this->_in_transaction = true;
+	}
+
+	public function commit()
+	{
+	    if (!$this->_in_transaction) return;
+	    $this->pdo->commit();
+	    $this->_in_transaction = false;
+	}
+
+	public function rollBack()
+	{
+	    if (!$this->_in_transaction) return;
+	    $rs = $this->pdo->rollBack();
+	    $this->_in_transaction = false;
+	}
 
 	/**
 	 * Quotes a string for use in a query
@@ -180,7 +203,7 @@ class Database
 		//$statement = $this->pdo->query($sql);
 
 		// Save query results by database type
-		self::$queries[$this->type][] = array(microtime(TRUE) - $time, $sql);
+		self::$queries[$this->type][] = array(microtime(TRUE) - $time, self::buildQuery($sql, $params));
 
 		return $statement;
 	}
@@ -369,6 +392,44 @@ class Database
 		// Remove ending ", "
 		return substr($sql, 0, -2);
 	}
+
+	/**
+	* Build query with PDO sql statement
+	*
+	* @param string $query sql
+	* @param array $params params
+	*/
+	public static function buildQuery($query, $params = array())
+    {
+        if(!$params) return $query;
+
+        $keys = array();
+        $values = array();
+        # build a regular expression for each parameter
+        foreach ($params as $key=>$value)
+        {
+            if (is_string($key))
+            {
+                $keys[] = '/:'.$key.'/';
+            }
+            else
+            {
+                $keys[] = '/[?]/';
+            }
+
+            if(is_numeric($value))
+            {
+                $values[] = intval($value);
+            }
+            else
+            {
+                $values[] = '"'.$value .'"';
+            }
+        }
+
+        $query = preg_replace($keys, $values, $query, 1, $count);
+        return $query;
+    }
 
 }
 
