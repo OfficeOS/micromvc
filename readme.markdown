@@ -15,13 +15,13 @@ All class methods are fully documented. Average class size is only 4kb which mak
 * PHP 5.3+
 * Nginx 0.7.x (legacy support for Apache with mod_rewrite)
 * PDO if using the Database
-* mb_string, [gettext](http://php.net/gettext), [iconv](http://www.php.net/manual/en/book.iconv.php), [ICU INTL](http://php.net/manual/en/book.intl.php) & SPL classes
+* mb_string, [iconv](http://www.php.net/manual/en/book.iconv.php), SPL classes
 
 ## Where is the Locale Class?
 
 If you have errors about missing classes make sure you have the required PHP extensions installed.
 
-Ubuntu/Debian: `$ sudo apt-get install php5-intl php5-mycrypt php-gettext`
+Ubuntu/Debian: `$ sudo apt-get install php5-mycrypt php5-mbstring`
 
 ## License
 
