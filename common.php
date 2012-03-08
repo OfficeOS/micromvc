@@ -473,9 +473,9 @@ function __date($locale = NULL, $datetype = IntlDateFormatter::MEDIUM, $timetype
 /**
  * Use I18n Object to parse
  */
-if(!function_exists('_'))
+if(!function_exists('__'))
 {
-    function _($string, array $values = NULL, $lang = 'en')
+    function __($string, array $values = NULL, $lang = 'en')
     {
         if ($lang !== \Core\I18n::$lang)
         {
