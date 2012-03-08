@@ -46,9 +46,13 @@ require(SP . 'common' . EXT);
 \Core\Config::setup(include(SP . 'config/config.php'));
 
 // Register events
-foreach(config('events') as $event => $class)
+if ($events = config('events'))
 {
-    event($event, NULL, $class);
+    foreach($events as $event => $class)
+    {
+        event($event, NULL, $class);
+    }
+    unset($events);
 }
 
 /*
