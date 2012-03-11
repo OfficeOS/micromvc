@@ -13,7 +13,7 @@
  */
 
 // Include bootstrap
-require('Bootstrap.php');
+require('bootstrap.php');
 
 // Require a CLI path
 if (empty($argv[1]))
