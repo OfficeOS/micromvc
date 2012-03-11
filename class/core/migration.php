@@ -128,7 +128,12 @@ abstract class Migration
     // Path to backup files
     protected function backup_path()
     {
-        return SP . 'storage/backup/';
+        $path = SP . 'storage/backup/';
+        if (!is_dir($path) || !mkdir($path, 0777, true))
+        {
+            throw new Exception("Cann't create dir $path");
+        }
+        return $path;
     }
 
     // Backup all existing data
