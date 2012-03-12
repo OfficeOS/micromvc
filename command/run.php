@@ -7,7 +7,7 @@ $db = new \Core\Database(config('database.default'));
 $db->connect();
 
 // Set name of migration object
-$migration = '\Core\Migration\\' . ($db->type == 'mysql' ? 'MySQL' : 'PGSQL');
+$migration = '\Core\Migration\\' . ucfirst($db->type);
 
 // Create migration object
 $migration = new $migration;
@@ -19,7 +19,7 @@ $migration->db = $db;
 $migration->name = 'default';
 
 // Load table configuration
-$migration->tables  = (array)config('migration');
+$migration->tables = (array)config('migration');
 
 // Backup existing database table
 $migration->backup_data();
