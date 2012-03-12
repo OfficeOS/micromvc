@@ -129,7 +129,7 @@ abstract class Migration
     protected function backup_path()
     {
         $path = SP . 'storage/backup/';
-        if (!is_dir($path) || !mkdir($path, 0777, true))
+        if (!is_dir($path) && !mkdir($path, 0777, true))
         {
             throw new Exception("Cann't create dir $path");
         }
