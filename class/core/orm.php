@@ -466,7 +466,7 @@ class ORM
 	 */
 	public static function row(array $where = NULL)
 	{
-		if($id = self::select('column', static::$key, NULL, $where))
+		if($id = self::select('row', '*', NULL, $where))
 		{
 			$class = get_called_class();
 			return new $class($id);
