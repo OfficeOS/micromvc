@@ -42,6 +42,7 @@ define('PATH', parse_url(getenv('REQUEST_URI'), PHP_URL_PATH));
 
 // Include common system functions
 require(SP . 'common' . EXT);
+spl_autoload_register('autoload');
 
 \Core\Config::setup(include(SP . 'config/config.php'));
 

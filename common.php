@@ -64,11 +64,10 @@ function config($key = false, $default = null)
  *
  * @param string $class name
  */
-function __autoload($className)
+function autoload($className)
 {
 	$className = ltrim($className, '\\');
 	$fileName  = '';
-	$namespace = '';
 
 	if ($lastNsPos = strripos($className, '\\'))
 	{
@@ -78,8 +77,9 @@ function __autoload($className)
 	}
 
 	$fileName .= str_replace('_', DS, $className) . '.php';
+    $fileName = SP . 'class/' . strtolower($fileName);
 
-	require SP . 'class/' . strtolower($fileName);
+	if (is_file($fileName)) require $fileName;
 }
 
 
@@ -230,12 +230,11 @@ function site_url($path = NULL, array $params = NULL)
  * Return the current URL with path and query params
  *
  * @return string
- *
+ */
 function current_url()
 {
 	return DOMAIN . getenv('REQUEST_URI');
 }
-*/
 
 /**
  * Convert a string from one encoding to another encoding
