@@ -1,3 +1,12 @@
+<?php if (IS_CLI): ?>
++ <?php print number_format(memory_get_usage() - START_MEMORY_USAGE); ?> bytes
++ <?php print number_format(memory_get_usage()); ?> bytes (process)
++ <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
++ <?php print round((microtime(true) - START_MICROTIME), 5); ?> seconds
++ <?php print date_default_timezone_get(); ?> timezone
+[Server]
+<?php print var_export($_SERVER); ?>
+<?php else: ?>
 <style type="text/css">
     #mm_debug_button {
         border: solid 1px #f00;
@@ -78,8 +87,8 @@
         <b>Memory Usage</b>
         <pre>
 <?php print number_format(memory_get_usage() - START_MEMORY_USAGE); ?> bytes
-<?php print number_format(memory_get_usage()); ?> bytes (process)
-<?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
+            <?php print number_format(memory_get_usage()); ?> bytes (process)
+            <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
         </pre>
 
         <b>Execution Time</b>
@@ -229,3 +238,4 @@
         });
     })
 </script>
+<?php endif; ?>
