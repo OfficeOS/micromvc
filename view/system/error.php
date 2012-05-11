@@ -1,6 +1,6 @@
 <?php if (IS_CLI): ?>
 <?php
-    if ($exception)
+    if (!empty($exception))
     {
         echo "[" . get_class($exception) . "] ";
         echo $exception->getMessage() . ' on ' . $exception->getFile() . ' [' . $exception->getLine() . ']' . PHP_EOL;
@@ -63,7 +63,7 @@
 
 <div class="system_error">
 
-    <?php if ($exception): ?>
+    <?php if (!empty($exception)): ?>
     <b style="color: #990000"><?php echo get_class($exception); ?></b>
     <p><?php echo $exception->getMessage(); ?></p>
     <?php else: ?>
@@ -105,7 +105,7 @@
         }
 
     }
-    if ($exception)
+    if (!empty($exception))
     {
         print '<p><b>' . $exception->getFile() . '</b> (' . $exception->getLine() . ')</p>';
     }
