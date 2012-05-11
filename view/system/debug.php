@@ -85,10 +85,9 @@
 
     <div class="mm_debug_tab" style="display:block;">
         <b>Memory Usage</b>
-        <pre>
-<?php print number_format(memory_get_usage() - START_MEMORY_USAGE); ?> bytes
-            <?php print number_format(memory_get_usage()); ?> bytes (process)
-            <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
+        <pre><?php print number_format(memory_get_usage() - START_MEMORY_USAGE); ?> bytes
+<?php print number_format(memory_get_usage()); ?> bytes (process)
+<?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
         </pre>
 
         <b>Execution Time</b>
