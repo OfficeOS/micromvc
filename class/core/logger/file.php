@@ -18,7 +18,7 @@ class File extends \Core\Logger
     public function __construct($config)
     {
         $this->_dir = $config['dir'];
-        $this->_prefix = $config['prefix'];
+        if (!empty($config['prefix'])) $this->_prefix = $config['prefix'];
         if (!empty($config['filename'])) $this->_filename = $config['filename'];
         if (!empty($config['message'])) $this->_message = $config['message'];
         $this->_level = $config['level'];
@@ -29,20 +29,18 @@ class File extends \Core\Logger
     {
         if (empty($this->_messages)) return;
 
-        $dirname_exists = array();
+        $dir_exists = array();
 
-        foreach ($this->_messages as $message)
-        {
+        foreach ($this->_messages as $message) {
             $replace = array();
-            foreach ($message as $k=> $v) $replace[':' . $k] = $v;
+            foreach ($message as $k => $v) $replace[':' . $k] = $v;
 
             $message_text = strtr($this->_message, $replace);
             $filename = rtrim($this->_dir, '/') . '/' . strtr($this->_filename, $replace);
-            $dirname = dirname($filename);
-            if (!in_array($dirname, $dirname_exists) && !is_dir($dirname))
-            {
-                mkdir($dirname, 0777, true);
-                $dirname_exists[] = $dirname;
+            $dir = dirname($filename);
+            if (!in_array($dir, $dir_exists) && !is_dir($dir)) {
+                mkdir($dir, 0777, true);
+                $dir_exists[] = $dir;
             }
 
             file_put_contents($filename, $message_text . PHP_EOL, FILE_APPEND);

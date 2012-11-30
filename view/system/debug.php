@@ -63,7 +63,7 @@
 </style>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
-        document.write('<script' + ' type="text/javascript" src="' + 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"><\/script>');
+        document.write('<script' + ' type="text/javascript" src="' + 'http://code.jquery.com/jquery-1.8.0.min.js"><\/script>');
     }
 </script>
 <a href="#" id="mm_debug_button" toggleString="Debug&#9650">Debug&#9660</a>
